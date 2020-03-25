@@ -24,4 +24,5 @@ module "firewall" {
   source  = "../../modules/firewall"
   project = "${var.project}"
   subnet  = "${module.vpc.subnet}"
+  source_ranges = ["81.2.94.34/32"]
 }
