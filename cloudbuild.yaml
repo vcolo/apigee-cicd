@@ -1,18 +1,18 @@
 steps:
 - id: 'branch name'
   name: 'alpine'
-  entrypoint: 'sh'  
-  args: 
+  entrypoint: 'sh'
+  args:
   - '-c'
-  - | 
+  - |
       echo "***********************"
       echo "$BRANCH_NAME"
       echo "***********************"
 
 - id: 'tf init'
-  name: 'hashicorp/terraform:0.11.14'
+  name: 'hashicorp/terraform:light'
   entrypoint: 'sh'
-  args: 
+  args:
   - '-c'
   - |
       if [ -d "intact-v1/$BRANCH_NAME/" ]; then
@@ -20,8 +20,8 @@ steps:
         terraform init
       else
         for dir in intact-v1/*/
-        do 
-          cd ${dir}   
+        do
+          cd ${dir}
           env=${dir%*/}
           env=${env#*/}
           echo ""
@@ -31,24 +31,24 @@ steps:
           terraform init || exit 1
           cd ../../
         done
-      fi 
+      fi
 
 # [START tf-plan]
 - id: 'tf plan'
-  name: 'hashicorp/terraform:0.11.14'
+  name: 'hashicorp/terraform:light'
   entrypoint: 'sh'
-  args: 
+  args:
   - '-c'
-  - | 
+  - |
       if [ -d "intact-v1/$BRANCH_NAME/" ]; then
         cd intact-v1/$BRANCH_NAME
         terraform plan
       else
         for dir in intact-v1/*/
-        do 
-          cd ${dir}   
+        do
+          cd ${dir}
           env=${dir%*/}
-          env=${env#*/}  
+          env=${env#*/}
           echo ""
           echo "*************** TERRAFOM PLAN ******************"
           echo "******* At environment: ${env} ********"
@@ -56,22 +56,22 @@ steps:
           terraform plan || exit 1
           cd ../../
         done
-      fi 
+      fi
 # [END tf-plan]
 
 # [START tf-apply]
 - id: 'tf apply'
-  name: 'hashicorp/terraform:0.11.14'
+  name: 'hashicorp/terraform:light'
   entrypoint: 'sh'
   args: 
   - '-c'
-  - | 
+  - |
       if [ -d "intact-v1/$BRANCH_NAME/" ]; then
-        cd intact-v1/$BRANCH_NAME      
+        cd intact-v1/$BRANCH_NAME
         terraform apply -auto-approve
       else
         echo "***************************** SKIPPING APPLYING *******************************"
         echo "Branch '$BRANCH_NAME' does not represent an oficial environment."
         echo "*******************************************************************************"
       fi
-# [END tf-apply]      
+# [END tf-apply]
