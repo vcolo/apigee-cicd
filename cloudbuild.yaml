@@ -3,7 +3,7 @@ steps:
   name: 'alpine'
   entrypoint: 'sh'
   args:
-  - '-c'
+  - '-cex'
   - |
       echo "***********************"
       echo "$BRANCH_NAME"
@@ -63,7 +63,7 @@ steps:
 - id: 'tf apply'
   name: 'hashicorp/terraform:light'
   entrypoint: 'sh'
-  args: 
+  args:
   - '-c'
   - |
       if [ -d "intact-v1/$BRANCH_NAME/" ]; then
