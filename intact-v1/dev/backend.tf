@@ -1,6 +1,6 @@
 terraform {
   backend gcs {
-    bucket = "fca-apigee-poc-tfstate"
+    bucket = "apigee-cicd-956385-tfstate"
     prefix = "env/dev"
   }
 }
