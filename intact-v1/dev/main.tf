@@ -4,6 +4,7 @@ locals {
 
 provider "google" {
   project = var.project
+  region  = "europe-west2"
   version = "~> 3.13"
 }
 
